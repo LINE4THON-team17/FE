@@ -4,4 +4,5 @@ export const ROUTES = {
   LOGIN: "/login",
   UPLOAD: "/upload",
   SEARCH: "/search",
+  ROUTEMAKE: "/routemake"
 };

@@ -7,6 +7,7 @@ import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Search } from "./pages/Search";
 import { Layout } from "./components/layout/layout";
+import Routemake from './components/newroute/Routemake'
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
 
         <Route path={ROUTES.LOGIN} element={<Login />} />
         <Route path={ROUTES.UPLOAD} element={<Upload />} />
+
+        <Route path={ROUTES.ROUTEMAKE} element={<Routemake/>} />
       </Routes>
     </BrowserRouter>
   );
