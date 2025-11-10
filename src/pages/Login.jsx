@@ -60,7 +60,6 @@ export function Login() {
       </Form>
 
       <SignupRow>
-        <SignupText>회원가입</SignupText>
         <SignupLink
           type="button"
           onClick={() => navigate("/signup")}
@@ -93,7 +92,7 @@ const Logo = styled.img`
 
 const Title = styled.h1`
   margin-top: 16px;
-  margin-bottom: 28px;
+  margin-bottom: 40px;
   font-size: 30px;
   font-weight: 700;
   text-align: center;
@@ -113,7 +112,7 @@ const Input = styled.input`
   border: 1.5px solid #e5e5ea;
   border-radius: 12px;
   padding: 0 16px;
-  font-size: 16px;
+  font-size: 15px;
   outline: none;
   transition: border-color 0.2s ease;
 
@@ -129,13 +128,13 @@ const Input = styled.input`
 const LoginButton = styled.button`
   width: 100%;
   height: 56px;
-  margin-top: 8px;
+  margin-top: 30px;
   border: none;
   border-radius: 12px;
   background: #000;
   color: #fff;
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
   transition: opacity 0.2s ease, transform 0.02s ease;
 
@@ -149,19 +148,15 @@ const SignupRow = styled.div`
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-top: 18px;
-`;
-
-const SignupText = styled.span`
-  color: transparent;
+  margin-top: 20px;
 `;
 
 const SignupLink = styled.button`
+  color: var(--Color-shadow, #444);
   background: none;
   border: none;
   padding: 0;
-  color: #2f6ee6;
   font-size: 16px;
-  text-decoration: underline;
+  font-weight: 400;
   cursor: pointer;
 `;
