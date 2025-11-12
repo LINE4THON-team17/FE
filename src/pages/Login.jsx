@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-
 import React, { useState, useMemo } from "react";
 import RoutieLogo from "../assets/icons/routieLogo.svg";
+import { requestLogin } from "../api/auth";
 
 export function Login() {
   const navigate = useNavigate();
@@ -19,16 +19,8 @@ export function Login() {
   const handleSubmit = async (e) => {
     e?.preventDefault();
     if (!isValid || loading) return;
-    try {
-      setLoading(true);
-      await new Promise((res) => setTimeout(res, 600));
-      navigate("/home");
-    } catch (err) {
-      alert("로그인에 실패했어요. 다시 시도해주세요.");
-    } finally {
-      setLoading(false);
-    }
-  };
+
+    
 
   return (
     <Page>
@@ -44,6 +36,7 @@ export function Login() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           autoComplete="email"
+          aria-label="이메일"
         />
         <Input
           name="password"
@@ -52,6 +45,7 @@ export function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           autoComplete="current-password"
+          aria-label="비밀번호"
         />
 
         <LoginButton type="submit" disabled={!isValid || loading}>
@@ -85,7 +79,7 @@ const TopSpacer = styled.div`
 `;
 
 const Logo = styled.img`
-  width: 168px;
+  width: 250px;
   height: auto;
   user-select: none;
 `;
@@ -93,8 +87,8 @@ const Logo = styled.img`
 const Title = styled.h1`
   margin-top: 16px;
   margin-bottom: 40px;
-  font-size: 30px;
-  font-weight: 700;
+  font-size: 22px;
+  font-weight: 600;
   text-align: center;
   line-height: 1.3;
 `;
