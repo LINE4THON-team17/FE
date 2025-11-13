@@ -28,7 +28,7 @@ export const Course = () => {
 
   return (
     <Layout type="back" text={course.title}>
-      <MapArea />
+      <MapArea places={course.places} type="course" />
       <BottomSheet>
         <CourseListSection
           onClick={() => setShowModal(true)}
