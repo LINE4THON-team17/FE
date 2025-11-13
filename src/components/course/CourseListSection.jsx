@@ -1,4 +1,4 @@
-import { CourseItemBox } from "./CouseItemBox";
+import { CourseItemBox } from "./CourseItemBox";
 import leftFoot from "../../assets/icons/leftFoot.svg";
 import rightFoot from "../../assets/icons/rightFoot.svg";
 import saveIcon from "../../assets/icons/saveIcon.svg";

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import searchIcon from "../../assets/icons/searchIcon.svg";
 
-export const SeaechBar = ({ onSearch }) => {
+export const SearchBar = ({ onSearch }) => {
   const [query, setQuery] = useState("");
 
   const handleEnter = (e) => {
