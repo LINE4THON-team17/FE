@@ -25,6 +25,12 @@ export const PlaceDetailPage = () => {
   );
   const category = placedata.category.split("/")[0];
 
+  const photoUrl = placedata.photoUrl?.startsWith(
+    "https://routie-4linethon.s3.ap-northeast-2.amazonaws.com/"
+  )
+    ? placedata.photoUrl
+    : samplePlaceImg;
+
   if (isLoading) return <div>로딩중...</div>;
   if (isError || !placedata) return <div>해당 장소를 찾을 수 없습니다.</div>;
 
@@ -32,7 +38,7 @@ export const PlaceDetailPage = () => {
     <Layout type="back" text={coursedata.title}>
       <section className="w-full aspect-[375/253] overflow-hidden">
         <img
-          src={samplePlaceImg}
+          src={photoUrl}
           alt="장소이미지"
           className="w-full h-full object-cover"
         />
@@ -40,9 +46,8 @@ export const PlaceDetailPage = () => {
       <section className="w-full  py-4 px-7 border-b-[0.5px] border-[var(--color-bg)]">
         <div className="flex gap-3 items-center">
           <p
-            className={`w-[39px] h-[21px] rounded-[16px]  text-white justify-center text-[12px] items-center flex font-normal bg-[${getCategoryColor(
-              category
-            )}]`}
+            className={` h-[21px] rounded-[16px]  text-white justify-center text-[12px] items-center flex font-normal py-[3px] px-[9px] `}
+            style={{ backgroundColor: getCategoryColor(category) }}
           >
             {category}
           </p>
