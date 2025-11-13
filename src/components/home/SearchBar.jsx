@@ -6,6 +6,7 @@ export const SeaechBar = ({ onSearch }) => {
 
   const handleEnter = (e) => {
     if (e.key === "Enter") {
+      e.preventDefault();
       onSearch(query);
     }
   };
