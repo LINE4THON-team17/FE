@@ -9,13 +9,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const navItems = [
   {
-    paths: ["/"],
+    paths: ["/", "/course"],
     icon: homeIcon,
     activeIcon: homeIconActive,
     label: "홈",
   },
   {
-    paths: ["/search"],
+    paths: ["/routie/ai-chat-start", "/routie/ai-chat"],
     icon: searchIcon,
     activeIcon: searchIconActive,
     label: "검색",
@@ -33,11 +33,11 @@ export const BottomNavBar = () => {
   const { pathname } = useLocation();
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 flex justify-around items-center pt-3 pb-[41px] border-t-[0.5px] border-[#858282] bg-white">
+    <div className="fixed bottom-0 left-0 right-0 flex justify-around items-center pt-3 pb-[41px] border-t-[0.5px] border-[#858282] bg-white z-100">
       {navItems.map(({ paths, icon, activeIcon, label }) => {
         const isActive =
           paths[0] === "/"
-            ? pathname === "/"
+            ? pathname === "/" || pathname.startsWith("/course")
             : paths.some((path) => pathname.startsWith(path));
         return (
           <button

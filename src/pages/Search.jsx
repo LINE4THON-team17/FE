@@ -1,10 +1,9 @@
-import { BottomNavBar } from "../components/layout/BottomNavBar";
+import { Layout } from "../components/layout/layout";
 
 export const Search = () => {
   return (
-    <div>
+    <Layout type="back" text="Routie">
       Search
-      <BottomNavBar />
-    </div>
+    </Layout>
   );
 };
