@@ -1,6 +1,6 @@
-import { Map, useKakaoLoader } from "react-kakao-maps-sdk";
+import { Map, MapMarker, useKakaoLoader } from "react-kakao-maps-sdk";
 
-export const MapArea = () => {
+export const MapArea = ({ places = [] }) => {
   useKakaoLoader();
 
   return (
@@ -8,9 +8,21 @@ export const MapArea = () => {
       <Map
         className="w-full h-full"
         id="map"
-        center={{ lat: 33.450701, lng: 126.570667 }}
-        level={3}
-      />
+        center={
+          places.length
+            ? { lat: places[0].latitude, lng: places[0].longitude }
+            : { lat: 33.450701, lng: 126.570667 }
+        }
+        level={4}
+      >
+        {places.map((p, idx) => (
+          <MapMarker
+            key={idx}
+            position={{ lat: p.latitude, lng: p.longitude }}
+            title={p.name}
+          />
+        ))}
+      </Map>
     </div>
   );
 };
