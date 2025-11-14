@@ -8,7 +8,7 @@ import friendIcon from "../assets/icons/friendIcon.svg";
 import shareIcon from "../assets/icons/shareIcon.svg";
 import settingIcon from "../assets/icons/settingIcon.svg";
 import badge from "../assets/icons/badge.svg";
-
+import closeIcon from "../assets/icons/closeIcon.svg";
 import rotiePrf from "../assets/icons/rotiePrf.svg";
 import routieMePrf from "../assets/icons/routieMePrf.svg";
 import cameraIcon from "../assets/icons/cameraIcon.svg";
@@ -110,6 +110,8 @@ export function MyPage() {
   // 공유 모달
   const [showShare, setShowShare] = useState(false);
   const [shareUrl, setShareUrl] = useState("");
+
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   const fileInputRef = useRef(null);
 
@@ -250,32 +252,106 @@ export function MyPage() {
     }
   };
 
+  const LogoutConfirmModal = ({ onClose, onConfirm }) => {
+    return (
+      <div
+        className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
+        onClick={onClose}
+      >
+        <div
+          className="bg-white rounded-[16px] w-[325px] text-center relative pt-[52px] pb-[46px]"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            onClick={onClose}
+            className="absolute top-[18.45px] right-[25.44px]"
+          >
+            <img src={closeIcon} alt="닫기" />
+          </button>
+
+          <h3 className="typo-regular mb-8">로그아웃하시겠습니까?</h3>
+
+          <div className="flex justify-center gap-4 px-8">
+            <button
+              onClick={onConfirm}
+              className="flex-1 bg-[var(--color-yellow)] text-[var(--color-shadow)] rounded-[12px] py-3 typo-regular"
+            >
+              네
+            </button>
+            <button
+              onClick={onClose}
+              className="flex-1 bg-[#4B4B4B] text-white rounded-[12px] py-3 typo-regular"
+            >
+              아니요
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const openShare = async () => {
+    // 프로필 아직 안 불러왔으면 그냥 현재 주소라도 공유
     if (!profile?.id) {
       setShareUrl(window.location.href);
-      return setShowShare(true);
+      setShowShare(true);
+      return;
     }
 
     try {
       const res = await createShareLink(profile.id);
-      const d = res?.data?.data || res?.data || {};
-      const maybeUrl = d.url || d.link;
-      const slug = d.slug;
+      const body = res?.data?.data || res?.data || {};
 
-      const finalUrl =
-        maybeUrl ||
-        (slug
-          ? `${window.location.origin}/share/u/${slug}`
-          : window.location.href);
+      const apiShareUrl = body.shareUrl; // 스웨거 예시의 "https://routie.shop/share/users/abc123xy"
+      const slug = body.slug;
+
+      const fallbackUrl = slug
+        ? `${window.location.origin}/share/users/${slug}`
+        : `${window.location.origin}/mypage`;
+
+      const finalUrl = apiShareUrl || fallbackUrl;
 
       setShareUrl(finalUrl);
-      setShowShare(true);
     } catch (e) {
       console.error("[mypage] 프로필 공유 링크 생성 실패", e);
-      setShareUrl(window.location.href);
+      // 실패 시에도 최소한 내 마이페이지라도 공유되게
+      setShareUrl(`${window.location.origin}/mypage`);
+    } finally {
       setShowShare(true);
     }
   };
+
+  // const openShare = async () => {
+  //   if (!profile?.id) {
+  //     // 아직 프로필 로딩 전이면 그냥 현재 주소
+  //     setShareUrl(window.location.href);
+  //     return setShowShare(true);
+  //   }
+
+  //   try {
+  //     const res = await createShareLink(profile.id);
+  //     const d = res?.data?.data || res?.data || {};
+  //     const maybeUrl = d.url || d.link;
+  //     const slug = d.slug;
+
+  //     // ✅ 항상 유저 식별 정보가 들어가도록
+  //     const finalUrl =
+  //       maybeUrl ||
+  //       (slug
+  //         ? `${window.location.origin}/share/u/${slug}`
+  //         : `${window.location.origin}/share/u/${profile.id}`);
+
+  //     setShareUrl(finalUrl);
+  //     setShowShare(true);
+  //   } catch (e) {
+  //     console.error("[mypage] 프로필 공유 링크 생성 실패", e);
+
+  //     // 실패해도 최소한 기본 공유 URL에 id는 붙이기
+  //     const fallback = `${window.location.origin}/share/u/${profile?.id ?? ""}`;
+  //     setShareUrl(fallback);
+  //     setShowShare(true);
+  //   }
+  // };
 
   const onSelect = (routeId) => {
     if (!editMode || !routeId) return;
@@ -323,7 +399,9 @@ export function MyPage() {
   return (
     <Layout type="logo">
       <HeaderRight>
-        <LogoutBtn onClick={handleLogout}>로그아웃</LogoutBtn>
+        <LogoutBtn onClick={() => setShowLogoutConfirm(true)}>
+          로그아웃
+        </LogoutBtn>
       </HeaderRight>
       <Inner>
         {/* 프로필 영역 */}
@@ -450,6 +528,17 @@ export function MyPage() {
           </TrashFab>
         )}
       </Inner>
+
+      {/* ✅ 로그아웃 확인 모달 */}
+      {showLogoutConfirm && (
+        <LogoutConfirmModal
+          onClose={() => setShowLogoutConfirm(false)}
+          onConfirm={async () => {
+            setShowLogoutConfirm(false);
+            await handleLogout();
+          }}
+        />
+      )}
 
       {showShare && (
         <ShareUrlModal onClose={() => setShowShare(false)} url={shareUrl} />
