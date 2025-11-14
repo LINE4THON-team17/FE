@@ -13,10 +13,11 @@ import Routemake from "./components/newroute/Routemake";
 import Placesearch from "./components/newroute/Placesearch";
 import Addroute from "./components/newroute/Addroute";
 import { PlaceDetailPage } from "./pages/PlaceDetailPage";
+import { Routies } from "./pages/Routies";
 import Uploading from "./components/newroute/Uploading";
 import RoutieAIChatPage from "./pages/RoutieAIChatPage";
 import RoutieChatBanner from "./pages/RoutieChatBanner";
-// import Routies from "./pages/Routies";
+
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path={ROUTES.ADDROUTE} element={<Addroute />} />
         <Route path="/uploading" element={<Uploading />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/routies" element={<Routies />} />
         <Route path={ROUTES.ROUTIEAICHAT} element={<RoutieAIChatPage />} />
         <Route
           path={ROUTES.ROUTIEAICHATBANNER}
